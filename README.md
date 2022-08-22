@@ -1,2 +1,2 @@
-# coriander
-A reddit-like website, developed by using gin, gorm, etc.
+# RedBubble
+一个使用Gin、GORM等技术开发的仿Reddit社交网络平台

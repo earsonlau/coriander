@@ -19,7 +19,7 @@ import (
 type ResponseData struct {
 	Code responseCode.ResCode `json:"code"` // 程序中的错误码
 	Msg  interface{}          `json:"msg"`  // 提示信息
-	Data interface{}          `json:"data"` // 数据
+	Data interface{}          `json:"data, omitempty"` // 数据
 }
 
 func Error(c *gin.Context, code responseCode.ResCode) {

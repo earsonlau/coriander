@@ -2,6 +2,7 @@ package setting
 
 import (
 	"fmt"
+
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
@@ -44,6 +45,7 @@ type RedisConfig struct {
 	DB       int    `mapstructure:"db"`
 	PoolSize int    `mapstructure:"pool_size"`
 	Password string `mapstructure:"password"`
+	MinIdleConns int    `mapstructure:"min_idle_conns"`
 }
 
 type SnowFlakeConfig struct {

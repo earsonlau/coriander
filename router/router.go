@@ -4,6 +4,7 @@ import (
 	"RedBubble/controller"
 	"RedBubble/logger"
 	"RedBubble/middleware"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,6 +23,7 @@ func Setup() *gin.Engine {
 	}
 
 	categoryGroup := apiGroup.Group("/category") // 帖子分类路由组
+	categoryGroup.Use(middleware.JWTAuthMiddleware())
 	{
 		//添加帖子分类
 		categoryGroup.POST("/insertCategory", controller.InsertCategoryHandler)
@@ -29,10 +31,34 @@ func Setup() *gin.Engine {
 		categoryGroup.GET("/getAllCategory", controller.GetAllCategoryHandler)
 		//获取某个分类详情
 		categoryGroup.GET("/getCategoryById/:id", controller.GetCategoryById)
+		//
+	}
+	
+	postGroup := apiGroup.Group("/post") // 帖子分类路由组
+	postGroup.Use(middleware.JWTAuthMiddleware())
+	{
+		// 添加帖子
+		postGroup.POST("/createPost",controller.CreatePostHandler)
+		//获取帖子列表
+		postGroup.GET("/posts/", controller.GetPostListDetailHandler)
+		//获取某个帖子详情
+		postGroup.GET("/:id", controller.GetPostByIdHandler)
+		//
+	}
+	voteGroup := apiGroup.Group("/vote") // 帖子分类路由组
+	voteGroup.Use(middleware.JWTAuthMiddleware())
+	{
+		// 添加帖子
+		voteGroup.POST("/",controller.PostVoteHandler)
+		//获取帖子列表
+		// voteGroup.GET("/posts/", controller.GetPostListDetailHandler)
+		// //获取某个帖子详情
+		// voteGroup.GET("/:id", controller.GetPostByIdHandler)
+		//
 	}
 
 	//测试使用，须登录后才能请求该路由，已注册中间件JWTAuthMiddleware()
-	r.GET("/test", middleware.JWTAuthMiddleware(), controller.TestAuthHandler) // localhost:8081/test
+	r.GET("/test", middleware.JWTAuthMiddleware(), controller.TestAuthHandler) 
 
 	return r
 }

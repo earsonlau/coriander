@@ -46,3 +46,16 @@ func GetUserByUsername(username string) (user *models.User, err error) {
 	}
 	return user, err
 }
+
+// 4、根据用户id获取用户
+func GetUserByUserId(uid int64) (user *models.User, err error) {
+	result := mdb.Where("user_id = ?", uid).First(&user) // SELECT * FROM user WHERE user_id = uid ORDER BY id LIMIT 1;
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		//用户不存在
+		err = ErrorUserNotExist
+	} else {
+		//该用户已存在
+		err = nil
+	}
+	return user, err
+}
